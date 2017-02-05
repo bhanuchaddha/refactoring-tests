@@ -20,6 +20,7 @@ public class PlaylistBusinessBean {
 
     /**
      * Add tracks to the index
+     * returns added tracks
      */
     List<PlayListTrack> addTracks(String uuid, List<Track> tracksToAdd, int toIndex) throws PlaylistException {
 
