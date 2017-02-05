@@ -1,0 +1,18 @@
+Below are the highlight of refactoring I have done
+
+1) Dependency of mock class can be removed as Testing for any class should be done in isolation.
+2) I have added mockito dependency to have mocked data.
+3) I have introduced Interface for DOA layer. this helpful in unit testing and provide flexibility in actual code.
+4) I have introduced new data structure which provides uniques ness along with indexing. feature of set and list interface.
+5) detail of underlying collection is hidden now. client do not bother how playlist is implemented internally.
+6) there were few bugs.test cases have been written for that anf bugs are fixed now.
+7) performance of add method is improved significantly.
+
+
+Below are few thought about problem.
+
+1) Mocking framwork can be added in place of mock class.
+2) some more details regarding objects can be mentioned. as which fields are unique for track or playlist track.
+
+
+Overall,  I enjoyed the refactoring process.

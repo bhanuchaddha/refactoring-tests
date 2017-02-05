@@ -2,18 +2,34 @@ package com.tidal.refactoring.playlist.data;
 
 import java.io.Serializable;
 import java.util.Date;
-
+import java.util.Random;
+/*
+* hashcode and equal method have been changed to decide uniqueness of PlayListTrack.
+* Track id of underlying tack is considered only unique property.
+*
+* */
 public class PlayListTrack implements Serializable, Comparable<PlayListTrack> {
 
     private static final long serialVersionUID = 5464240796158432162L;
+    private static final Random randomGenerator = new Random();
 
     private Integer id;
     private PlayList playlist;
     private int index;
     private Date dateAdded;
     private int trackId;
-
     private Track track;
+
+
+    public static PlayListTrack newPlayListTrackFromPlayListAndTrack(PlayList playList,Track track){
+        PlayListTrack playListTrack= new PlayListTrack();
+        // strategy for id was not specified in requirement.thus using random number
+        playListTrack.setId(randomGenerator.nextInt(10000));
+        playListTrack.setTrackPlaylist(playList);
+        playListTrack.setTrack(track);
+        return playListTrack;
+    }
+
 
     public PlayListTrack() {
         dateAdded = new Date();
@@ -31,9 +47,6 @@ public class PlayListTrack implements Serializable, Comparable<PlayListTrack> {
         return trackId;
     }
 
-    public void setTrackId(int trackId) {
-        this.trackId = trackId;
-    }
 
     public PlayList getTrackPlayList() {
         return playlist;
@@ -47,8 +60,10 @@ public class PlayListTrack implements Serializable, Comparable<PlayListTrack> {
         return track;
     }
 
+    //to ensure track id is added when track id added to playListTrack
     public void setTrack(Track track) {
         this.track = track;
+        this.trackId=track.getId();
     }
 
     public int getIndex() {
@@ -72,30 +87,32 @@ public class PlayListTrack implements Serializable, Comparable<PlayListTrack> {
     }
 
 
+    /*
+    * equals method should not depend upon date,id and index id
+    * one track my have different index id and date in the life time of playlist
+    * */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof PlayListTrack)) return false;
 
         PlayListTrack that = (PlayListTrack) o;
 
-        if (index != that.index) return false;
-        if (trackId != that.trackId) return false;
-        if (dateAdded != null ? !dateAdded.equals(that.dateAdded) : that.dateAdded != null) return false;
-        return !(id != null ? !id.equals(that.id) : that.id != null);
+        return getTrackId() == that.getTrackId();
 
     }
 
+    /*
+    * hashcode method should not depend upon date,id and index id
+    * one track my have different index id and date in the life time of playlist
+    * */
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + index;
-        result = 31 * result + (dateAdded != null ? dateAdded.hashCode() : 0);
-        result = 31 * result + trackId;
-        return result;
+        return getTrackId();
     }
 
     public String toString() {
         return "PlayListTrack id[" + getId() + "], trackId[" + getTrackId() + "]";
     }
+
 }
